@@ -103,35 +103,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const bgMusic = document.getElementById('bgMusic');
     let isPlaying = false;
 
-    musicToggle.addEventListener('click', function() {
-        if (isPlaying) {
-            bgMusic.pause();
-            musicToggle.textContent = '🎵';
-            isPlaying = false;
-        } else {
-            bgMusic.play().then(() => {
-                musicToggle.textContent = '🔊';
-                isPlaying = true;
-            }).catch(() => {
-                musicToggle.textContent = '❌';
-                console.log('Music could not be played');
-            });
-        }
-    });
+    if (!musicToggle || !bgMusic) {
+        console.warn('[Love Site] Music elements not found. musicToggle:', !!musicToggle, 'bgMusic:', !!bgMusic);
+    } else {
+        musicToggle.addEventListener('click', function() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicToggle.textContent = '🎵';
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '🔊';
+                    isPlaying = true;
+                }).catch(() => {
+                    musicToggle.textContent = '❌';
+                    console.log('[Love Site] Music could not be played');
+                });
+            }
+        });
+    }
 
     // Love Note Toggle
     const loveButton = document.getElementById('loveButton');
     const loveNote = document.getElementById('loveNote');
 
-    loveButton.addEventListener('click', function() {
-        loveNote.classList.toggle('visible');
-        if (loveNote.classList.contains('visible')) {
-            loveButton.textContent = 'Hide My Love Note 💝';
-            createHeartBurst();
-        } else {
-            loveButton.textContent = 'Click for a surprise 💝';
-        }
-    });
+    if (!loveButton || !loveNote) {
+        console.warn('[Love Site] Love button elements not found. loveButton:', !!loveButton, 'loveNote:', !!loveNote);
+    } else {
+        loveButton.addEventListener('click', function() {
+            loveNote.classList.toggle('visible');
+            if (loveNote.classList.contains('visible')) {
+                loveButton.textContent = 'Hide My Love Note 💝';
+                createHeartBurst();
+            } else {
+                loveButton.textContent = 'Click for a surprise 💝';
+            }
+        });
+    }
 
     // Create heart burst effect
     function createHeartBurst() {
@@ -161,22 +169,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const kissButton = document.getElementById('kissButton');
     const kissCountDisplay = document.getElementById('kissCount');
 
-    kissButton.addEventListener('click', function() {
-        kissCount++;
-        kissCountDisplay.textContent = kissCount;
-        createKissEffect();
-        
-        // Add special messages for certain kiss counts
-        if (window.CONFIG && window.CONFIG.kissMessages) {
-            if (kissCount === 10 && window.CONFIG.kissMessages[10]) {
-                showSpecialMessage(window.CONFIG.kissMessages[10]);
-            } else if (kissCount === 50 && window.CONFIG.kissMessages[50]) {
-                showSpecialMessage(window.CONFIG.kissMessages[50]);
-            } else if (kissCount === 100 && window.CONFIG.kissMessages[100]) {
-                showSpecialMessage(window.CONFIG.kissMessages[100]);
+    if (!kissButton || !kissCountDisplay) {
+        console.warn('[Love Site] Kiss button elements not found. kissButton:', !!kissButton, 'kissCountDisplay:', !!kissCountDisplay);
+    } else {
+        kissButton.addEventListener('click', function() {
+            kissCount++;
+            kissCountDisplay.textContent = kissCount;
+            createKissEffect();
+            
+            // Add special messages for certain kiss counts
+            if (window.CONFIG && window.CONFIG.kissMessages) {
+                if (kissCount === 10 && window.CONFIG.kissMessages[10]) {
+                    showSpecialMessage(window.CONFIG.kissMessages[10]);
+                } else if (kissCount === 50 && window.CONFIG.kissMessages[50]) {
+                    showSpecialMessage(window.CONFIG.kissMessages[50]);
+                } else if (kissCount === 100 && window.CONFIG.kissMessages[100]) {
+                    showSpecialMessage(window.CONFIG.kissMessages[100]);
+                }
             }
-        }
-    });
+        });
+    }
 
     // Create kiss effect
     function createKissEffect() {
